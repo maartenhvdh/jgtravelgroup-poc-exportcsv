@@ -130,7 +130,7 @@ export const getTourByCodename = (config: ClientConfig, tourCodename: string, us
     .then(res => {
       if (res.response.status === 404) {
         return null;
-      }
+      }""
       return res.data.items[0] as Tour
     })
     .catch((error) => {

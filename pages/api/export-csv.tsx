@@ -2,6 +2,7 @@
 import { Parser } from 'json2csv';
 import { getTourByCodename } from '../../lib/services/kontentClient';
 import { defaultEnvId, defaultPreviewKey } from '../../lib/utils/env';
+import { Tour } from '../../models';
 
 export default async function handler(req, res) {
   // Function to fetch content items and linked items from your CMS
@@ -9,9 +10,12 @@ export default async function handler(req, res) {
   if (typeof tourCodename !== "string") {
     return res.status(400).json({ error: "You have to provide 'codename' query parameter with the tour's codename." });
   }
-
-  const contentItems = await fetchContentItems(tourCodename);
-  console.log(contentItems)
+  const currentEnvId = defaultEnvId;
+  const currentPreviewApiKey = defaultPreviewKey;
+  // This should return an array of content items with linked items
+  // For example:
+  const tour = await getTourByCodename({ envId: currentEnvId, previewApiKey: currentPreviewApiKey }, tourCodename, true);
+  const contentItems = await fetchContentItems(tour);
 
   // Define the fields for the CSV file
   const fields = [
@@ -57,7 +61,7 @@ export default async function handler(req, res) {
 
     // Set the headers to prompt download
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename=content-items.csv');
+    res.setHeader('Content-Disposition', `attachment; filename=${tour.elements.name.value}.csv`);
 
     // Send the CSV file
     res.status(200).send(csv);
@@ -69,14 +73,7 @@ export default async function handler(req, res) {
 
 // Mock function to simulate fetching content items from a CMS
 // Replace this with your actual data fetching logic
-async function fetchContentItems(tourCodename: string) {
-  const currentEnvId = defaultEnvId;
-  const currentPreviewApiKey = defaultPreviewKey;
-  // This should return an array of content items with linked items
-  // For example:
-  const tour = await getTourByCodename({ envId: currentEnvId, previewApiKey: currentPreviewApiKey }, tourCodename, true);
-  
-  
+async function fetchContentItems(tour: Tour) {  
   return [
     {
       tourNumber: tour.elements.tourNumber.value,
