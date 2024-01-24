@@ -3,6 +3,7 @@ import { Parser } from 'json2csv';
 import { getTourExportByCodename } from '../../lib/services/kontentClient';
 import { defaultEnvId, defaultPreviewKey } from '../../lib/utils/env';
 import { ExportModule, Tour } from '../../models';
+import { formatDate } from '../../lib/utils/dateTime';
 
 export default async function handler(req, res) {
   // Function to fetch content items and linked items from your CMS
@@ -78,7 +79,7 @@ export default async function handler(req, res) {
 
     // Set the headers to prompt download
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename=${tourCodename}.csv`);
+    res.setHeader('Content-Disposition', `attachment; filename=${getCurrentDate()}-${tourCodename}.csv`);
 
     // Send the CSV file
     res.status(200).send(csv);
@@ -86,6 +87,16 @@ export default async function handler(req, res) {
     console.log(err)
     res.status(500).json({ error: 'Failed to generate CSV file' });
   }
+}
+
+export function getCurrentDate(separator = '') {
+
+  let newDate = new Date()
+  let date = newDate.getDate();
+  let month = newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+
+  return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`
 }
 
 // Mock function to simulate fetching content items from a CMS
