@@ -1,6 +1,6 @@
 import { DeliveryError, IContentItem, camelCasePropertyNameResolver, createDeliveryClient } from '@kontent-ai/delivery-sdk';
 import { defaultEnvId, defaultPreviewKey, deliveryApiDomain, deliveryPreviewApiDomain } from '../utils/env';
-import { Tour, contentTypes } from '../../models';
+import { ExportModule, Tour, contentTypes } from '../../models';
 const sourceTrackingHeaderName = 'X-KC-SOURCE';
 const defaultDepth = 10;
 
@@ -130,8 +130,39 @@ export const getTourByCodename = (config: ClientConfig, tourCodename: string, us
     .then(res => {
       if (res.response.status === 404) {
         return null;
-      }""
+      } ""
       return res.data.items[0] as Tour
+    })
+    .catch((error) => {
+      debugger;
+      if (error instanceof DeliveryError) {
+        // delivery specific error (e.g. item with codename not found...)
+        console.error(error.message, error.errorCode);
+        return null;
+      } else {
+        // some other error
+        console.error("HTTP request error", error);
+        // throw error;
+        return null;
+      }
+    });
+
+export const getTourExportByCodename = (config: ClientConfig, tourCodename: string, usePreview: boolean) =>
+  getDeliveryClient(config)
+    .items<ExportModule>()
+    .type(contentTypes.export_module.codename)
+    .limitParameter(1)
+    .equalsFilter(`system.codename`, tourCodename)
+    .depthParameter(defaultDepth)
+    .queryConfig({
+      usePreviewMode: usePreview,
+    })
+    .toPromise()
+    .then(res => {
+      if (res.response.status === 404) {
+        return null;
+      } ""
+      return res.data.items[0] as ExportModule
     })
     .catch((error) => {
       debugger;

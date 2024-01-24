@@ -35,6 +35,14 @@ export type Tour = IContentItem<{
   endDate: Elements.DateTimeElement;
 
   /**
+   * Export tour (custom)
+   * Required: false
+   * Id: d8c8beac-d1cd-4c43-b930-b89c15122a56
+   * Codename: export_tour
+   */
+  exportTour: Elements.CustomElement;
+
+  /**
    * Accomodation(s) (modular_content)
    * Required: false
    * Id: 62a21c58-78ae-452c-9fb3-f5435ae4f091

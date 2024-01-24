@@ -70,6 +70,56 @@ export const contentTypes = {
   },
 
   /**
+   * Export Module
+   */
+  export_module: {
+    codename: 'export_module',
+    id: 'e85cbb10-843e-46c2-baa0-c78ac6297a4f',
+    externalId: undefined,
+    name: 'Export Module',
+    elements: {
+      /**
+       * Export to CSV (custom)
+       */
+      export_to_csv: {
+        codename: 'export_to_csv',
+        id: '5b238f1e-0a58-43ea-9476-735fa9d31955',
+        externalId: undefined,
+        name: 'Export to CSV',
+        required: false,
+        type: 'custom',
+        snippetCodename: undefined,
+      },
+
+      /**
+       * Include hotel data (multiple_choice)
+       */
+      include_hotel_data: {
+        codename: 'include_hotel_data',
+        id: 'fc7eee04-fea6-47c1-8a42-7bdabba42288',
+        externalId: undefined,
+        name: 'Include hotel data',
+        required: false,
+        type: 'multiple_choice',
+        snippetCodename: undefined,
+      },
+
+      /**
+       * Tours to be exported (modular_content)
+       */
+      tours_to_be_exported: {
+        codename: 'tours_to_be_exported',
+        id: '4b804b94-c83c-4417-b752-7dfdd93c9b5b',
+        externalId: undefined,
+        name: 'Tours to be exported',
+        required: false,
+        type: 'modular_content',
+        snippetCodename: undefined,
+      },
+    },
+  },
+
+  /**
    * Hotel
    */
   hotel: {
@@ -290,6 +340,19 @@ export const contentTypes = {
         name: 'End date',
         required: false,
         type: 'date_time',
+        snippetCodename: undefined,
+      },
+
+      /**
+       * Export tour (custom)
+       */
+      export_tour: {
+        codename: 'export_tour',
+        id: 'd8c8beac-d1cd-4c43-b930-b89c15122a56',
+        externalId: undefined,
+        name: 'Export tour',
+        required: false,
+        type: 'custom',
         snippetCodename: undefined,
       },
 
