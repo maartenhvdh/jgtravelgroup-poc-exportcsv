@@ -3,7 +3,7 @@ import { Parser } from 'json2csv';
 import { getTourExportByCodename } from '../../lib/services/kontentClient';
 import { defaultEnvId, defaultPreviewKey } from '../../lib/utils/env';
 import { ExportModule, Tour } from '../../models';
-import { formatDate } from '../../lib/utils/dateTime';
+import { formatDate, formatMonthsForLocale } from '../../lib/utils/dateTime';
 
 export default async function handler(req, res) {
   // Function to fetch content items and linked items from your CMS
@@ -48,6 +48,10 @@ export default async function handler(req, res) {
     {
       label: 'Days',
       value: 'duration'
+    },    
+    {
+      label: 'Months',
+      value: 'months'
     },
     {
       label: 'Price',
@@ -102,12 +106,15 @@ export function getCurrentDate(separator = '') {
 // Mock function to simulate fetching content items from a CMS
 // Replace this with your actual data fetching logic
 function fetchContentItems(tour: Tour) {
+  const startMonth = formatMonthsForLocale(tour.elements.startDate.value, tour.system.language, 'short')
+  const endMonth = formatMonthsForLocale(tour.elements.endDate.value, tour.system.language, 'short')
   return {
     tourNumber: tour.elements.tourNumber.value,
     tourName: tour.elements.name.value,
     description: tour.elements.description.value,
     includes: tour.elements.includes.value,
     duration: tour.elements.durationInDays.value,
+    months: `${startMonth} - ${endMonth}`,
     price: tour.elements.price.value,
     images: tour.elements.image.value.map((image) => image.url).join(';'),
     hotelname: tour.elements.hotel.linkedItems[0]?.elements.name.value,
