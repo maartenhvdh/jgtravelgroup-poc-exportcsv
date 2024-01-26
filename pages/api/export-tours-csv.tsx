@@ -72,6 +72,26 @@ export default async function handler(req, res) {
     {
       label: 'Hotel rating',
       value: 'hotelrating'
+    },    
+    {
+      label: 'Included excursion',
+      value: 'includedexcursion'
+    }, 
+    {
+      label: 'Included excursion description',
+      value: 'includedexcursiondescription'
+    },    
+    {
+      label: 'Optional excursion',
+      value: 'optionalexcursion'
+    }, 
+    {
+      label: 'Optional excursion description',
+      value: 'optionalexcursiondescription'
+    }, 
+    {
+      label: 'Optional excursion price',
+      value: 'optionalexcursionprice'
     }
   ];
 
@@ -120,6 +140,11 @@ function fetchContentItems(tour: Tour) {
     hotelname: tour.elements.hotel.linkedItems[0]?.elements.name.value,
     hoteldescription: tour.elements.hotel.linkedItems[0]?.elements.description.value,
     hotelaccessibility: tour.elements.hotel.linkedItems[0]?.elements.hotelAccessibilityInformation.value,
-    hotelrating: tour.elements.hotel.linkedItems[0]?.elements.rating.value
+    hotelrating: tour.elements.hotel.linkedItems[0]?.elements.rating.value,
+    includedexcursion: `${tour.elements.includedExcursions.linkedItems[0]?.elements.name.value} (${tour.elements.includedExcursions.linkedItems[0]?.elements.duration.value[0].name})`,
+    includedexcursiondescription: tour.elements.includedExcursions.linkedItems[0]?.elements.description.value,
+    optionalexcursion: `${tour.elements.optionalExcursions.linkedItems[0]?.elements.name.value} (${tour.elements.optionalExcursions.linkedItems[0]?.elements.duration.value[0].name})`,
+    optionalexcursiondescription: tour.elements.optionalExcursions.linkedItems[0]?.elements.description.value,
+    optionalexcursionprice: tour.elements.optionalExcursions.linkedItems[0]?.elements.priceInPoundPp.value
   }
 }
