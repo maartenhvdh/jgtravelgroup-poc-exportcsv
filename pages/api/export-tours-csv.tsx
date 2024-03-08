@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   const toursExport = await getTourExportByCodename({ envId: currentEnvId, previewApiKey: currentPreviewApiKey }, tourCodename, true) as ExportModule;
 
   const contentItems = []
-  toursExport.elements.toursToBeExported.linkedItems.map((tour) => {
+  toursExport.elements.toursToExport.linkedItems.map((tour) => {
     contentItems.push(fetchContentItems(tour))
   }
   )
@@ -126,25 +126,23 @@ export function getCurrentDate(separator = '') {
 // Mock function to simulate fetching content items from a CMS
 // Replace this with your actual data fetching logic
 function fetchContentItems(tour: Tour) {
-  const startMonth = formatMonthsForLocale(tour.elements.startDate.value, tour.system.language, 'short')
-  const endMonth = formatMonthsForLocale(tour.elements.endDate.value, tour.system.language, 'short')
+  // const startMonth = formatMonthsForLocale(tour.elements.startDate.value, tour.system.language, 'short')
+  // const endMonth = formatMonthsForLocale(tour.elements.endDate.value, tour.system.language, 'short')
   return {
-    tourNumber: tour.elements.tourNumber.value,
-    tourName: tour.elements.name.value,
-    description: tour.elements.description.value,
-    includes: tour.elements.includes.value,
-    duration: tour.elements.durationInDays.value,
-    months: `${startMonth} - ${endMonth}`,
-    price: tour.elements.price.value,
-    images: tour.elements.image.value.map((image) => image.url).join(';'),
-    hotelname: tour.elements.hotel.linkedItems[0]?.elements.name.value,
-    hoteldescription: tour.elements.hotel.linkedItems[0]?.elements.description.value,
-    hotelaccessibility: tour.elements.hotel.linkedItems[0]?.elements.hotelAccessibilityInformation.value,
-    hotelrating: tour.elements.hotel.linkedItems[0]?.elements.rating.value,
-    includedexcursion: `${tour.elements.includedExcursions.linkedItems[0]?.elements.name.value} (${tour.elements.includedExcursions.linkedItems[0]?.elements.duration.value[0].name})`,
+    tourName: tour.elements.tourTitle.value,
+    description: tour.elements.tourIntro.value,
+    includes: tour.elements.untitledRichText.value,
+    duration: tour.elements.tourDurationInDays.value,
+    // months: `${startMonth} - ${endMonth}`,
+    images: tour.elements.images.value.map((image) => image.url).join(';'),
+    hotelname: tour.elements.hotelS.linkedItems[0]?.elements.name.value,
+    hoteldescription: tour.elements.hotelS.linkedItems[0]?.elements.description.value,
+    hotelaccessibility: tour.elements.hotelS.linkedItems[0]?.elements.accessibilityInformation.value,
+    hotelrating: tour.elements.hotelS.linkedItems[0]?.elements.rating.value,
+    includedexcursion: `${tour.elements.includedExcursions.linkedItems[0]?.elements.description.value} (${tour.elements.includedExcursions.linkedItems[0]?.elements.durationHalfDayFullDay.value})`,
     includedexcursiondescription: tour.elements.includedExcursions.linkedItems[0]?.elements.description.value,
-    optionalexcursion: `${tour.elements.optionalExcursions.linkedItems[0]?.elements.name.value} (${tour.elements.optionalExcursions.linkedItems[0]?.elements.duration.value[0].name})`,
-    optionalexcursiondescription: tour.elements.optionalExcursions.linkedItems[0]?.elements.description.value,
-    optionalexcursionprice: tour.elements.optionalExcursions.linkedItems[0]?.elements.priceInPoundPp.value
+    optionalexcursion: `${tour.elements.optionalExcursionS.linkedItems[0]?.elements.description.value} (${tour.elements.optionalExcursionS.linkedItems[0]?.elements.durationHalfDayFullDay.value})`,
+    optionalexcursiondescription: tour.elements.optionalExcursionS.linkedItems[0]?.elements.description.value,
+    optionalexcursionprice: tour.elements.optionalExcursionS.linkedItems[0]?.elements.priceInPp.value
   }
 }
