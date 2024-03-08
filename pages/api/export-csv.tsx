@@ -20,16 +20,20 @@ export default async function handler(req, res) {
   // Define the fields for the CSV file
   const fields = [
     {
-      label: 'Tour Number',
-      value: 'tourNumber'
-    },
-    {
       label: 'Tour Name',
       value: 'tourName'
     },
     {
       label: 'Description',
       value: 'description'
+    },
+    {
+      label: 'Reader offer intro 2',
+      value: 'readerOfferIntro2'
+    },
+    {
+      label: 'Reader offer intro 3',
+      value: 'readerOfferIntro3'
     },
     {
       label: 'Includes',
@@ -42,10 +46,6 @@ export default async function handler(req, res) {
     {
       label: 'Days',
       value: 'duration'
-    },
-    {
-      label: 'Price',
-      value: 'price'
     },
     {
       label: 'Hotels',
@@ -76,14 +76,14 @@ export default async function handler(req, res) {
 async function fetchContentItems(tour: Tour) {  
   return [
     {
-      tourNumber: tour.elements.tourNumber.value,
-      tourName: tour.elements.name.value,
-      description: tour.elements.description.value,
-      includes: tour.elements.includes.value,
-      duration: tour.elements.durationInDays.value,
-      price: tour.elements.price.value,
-      images: tour.elements.image.value.map((image) => image.url).join(';'),      
-      hotels: tour.elements.hotel.linkedItems.map((hotel) => ({
+      tourName: tour.elements.tourTitle.value,
+      description: tour.elements.tourIntro.value,
+      readerOfferIntro2: tour.elements.readerOfferIntro2.value,
+      readerOfferIntro3: tour.elements.readerOfferIntro3.value,
+      includes: tour.elements.untitledRichText.value,
+      duration: tour.elements.tourDurationInDays.value,
+      images: tour.elements.images.value.map((image) => image.url).join(';'),      
+      hotels: tour.elements.hotelS.linkedItems.map((hotel) => ({
         hotelName: hotel.elements.name.value,
         hoteldescription: hotel.elements.description.value,
         hotelRating: hotel.elements.rating.value
