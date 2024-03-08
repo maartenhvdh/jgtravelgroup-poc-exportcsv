@@ -2,6 +2,8 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 import Head from "next/head";
+import { ExportCustomElement } from "../../components/custom-elements/export";
+import { ExportToursCustomElement } from "../../components/custom-elements/export-tours";
 
 interface IProps {
     elementComponent: string
@@ -44,7 +46,13 @@ const CustomElementTest: NextPage<IProps> = ({ elementComponent }) => {
 
     let customElement = <div><p>There was an issue loading the Custom Element</p></div>
     if (element && context) {
-        switch (elementComponent) {      
+        switch (elementComponent) {    
+            case "export":
+                customElement = <ExportCustomElement element={element} context={context} handleSave={handleSave} value={value} />
+                break;
+            case "exportall":
+                customElement = <ExportToursCustomElement element={element} context={context} handleSave={handleSave} value={value} />
+                break;  
             default:
                 customElement = <div><p>Custom element no configured in code</p></div>
                 break;
@@ -72,11 +80,8 @@ export default CustomElementTest;
 export const getStaticPaths: GetStaticPaths = async (params) => {
     return {
         paths: [
-            '/ce/translation',
-            '/ce/create-environment',
-            '/ce/twitter',
-            '/ce/instagram',
-            '/ce/hubspotforms',
+            '/ce/export',
+            '/ce/exportall',
         ],
         fallback: false
     }
