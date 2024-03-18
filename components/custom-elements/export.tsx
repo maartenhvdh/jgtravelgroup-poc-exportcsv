@@ -12,7 +12,7 @@ export const ExportCustomElement: React.FC<IProps> = ({ element, context, value,
     return <>
         <div className="custom-element">
             <div className="d-flex justify-content-center mb-3 p-1 py-5">
-                <a className="btn btn-xs btn-secondary" href={`https://jgtravelgroup-poc-exportcsv-fbwt.vercel.app/api/export-csv?codename=${context.item.codename}`}>Export single tour to CSV</a>
+                <a className="btn btn-xs btn-secondary" href={`/api/export-csv?codename=${context.item.codename}`}>Export single tour to CSV</a>
             </div>
         </div>
     </>
